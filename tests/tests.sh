@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+export PS4='[\D{%FT%TZ}]: ${BASH_SOURCE}:${LINENO}: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
+export BASH_XTRACEFD=4
+set -o xtrace
+
 ROOT=$(cd $(dirname $0)/../ >/dev/null; pwd)
 
 TESTS_DIR="${ROOT}/tests"
