@@ -17,6 +17,16 @@ oneTimeSetUp() {
 #
 # Argument tests
 #
+testArgumentsPath() {
+    OUTPUT="$(docker run -v ${TEST_POLICY_DIR}/invalid:/policies iam-lint /policies)"
+    RC=$?
+
+    assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
+                "[ ${RC} -eq 0 ]"
+    assertTrue "Path /policies not in output" \
+                "[ $(echo ${OUTPUT} | grep -c -- "/policies") -eq 1 ]"
+}
+
 testArgumentsMinimumSeverity() {
     OUTPUT="$(docker run -e INPUT_MINIMUM_SEVERITY=HIGH -v ${TEST_POLICY_DIR}/invalid:/src iam-lint /src)"
     RC=$?
