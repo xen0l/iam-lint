@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 export PS4='[\D{%FT%TZ}]: ${BASH_SOURCE}:${LINENO}: ${FUNCNAME[0]:+${FUNCNAME[0]}(): }'
-export BASH_XTRACEFD=4
 set -o xtrace
 
 ROOT=$(cd $(dirname $0)/../ >/dev/null; pwd)
@@ -92,18 +91,18 @@ testLintInvalidMultiple() {
                 "[ $(echo ${OUTPUT} | grep -o FAILED | wc -l) -eq 2 ]"
 }
 
-#testLintValidInvalid() {
-#    OUTPUT="$(docker run -v ${TEST_POLICY_DIR}/valid_invalid:/src iam-lint /src)"
-#    RC=$?
-#
-#    assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
-#                "[ ${RC} -ne 0 ]"
-#    assertTrue "Invalid number of properly validated valid policy files" \
-#                "[ $(echo ${OUTPUT} | grep -c OK) -eq 1 ]"
-#    assertTrue "Invalid number of properly validated invalid policy files" \
-#                "[ $(echo ${OUTPUT} | grep -c FAILED) -eq 1 ]"
-#
-#}
+testLintValidInvalid() {
+    OUTPUT="$(docker run -v ${TEST_POLICY_DIR}/valid_invalid:/src iam-lint /src)"
+    RC=$?
+
+    assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
+                "[ ${RC} -ne 0 ]"
+    assertTrue "Invalid number of properly validated valid policy files" \
+                "[ $(echo ${OUTPUT} | grep -c OK) -eq 1 ]"
+    assertTrue "Invalid number of properly validated invalid policy files" \
+                "[ $(echo ${OUTPUT} | grep -c FAILED) -eq 1 ]"
+
+}
 
 # Execute tests
 . ${TESTS_DIR}/shunit2
