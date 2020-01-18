@@ -22,7 +22,7 @@ testArgumentsPath() {
     RC=$?
 
     assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
-                "[ ${RC} -eq 0 ]"
+                "[ ${RC} -eq 1 ]"
     assertTrue "Path /policies not in output" \
                 "[ $(echo ${OUTPUT} | grep -c -- "/policies") -eq 1 ]"
 }
