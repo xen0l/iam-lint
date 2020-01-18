@@ -37,6 +37,7 @@ echo "parliament arguments: ${PARLIAMENT_ARGS[@]}"
 echo
 
 POLICY_FILES="$(find ${POLICY_DIR_PATH} -type f -name "*.${POLICY_FILE_SUFFIX}")"
+echo "FILES: ${POLICY_FILES[@]}"
 if [[ -z "${POLICY_FILES}" ]]; then
     red "No policy files found!"
 
