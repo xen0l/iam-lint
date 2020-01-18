@@ -1,0 +1,25 @@
+# action.yml
+name: 'iam-lint'
+description: 'Github Action to lint AWS IAM policy document files with parliament from DUo Labs'
+branding:
+  icon: 'shield'
+  color: 'green'
+inputs:
+  path:
+    description: 'Path to folder with IAM policy document files'
+    required: false
+    default: '.'
+  file_suffix:
+    description: 'IAM policy document file suffix'
+    required: false
+    default: 'json'
+  minimum_severity:
+    description: "Minimum severity of findigs to display"
+    required: false
+    default: ''
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.path }}
+    - ${{ inputs.file_suffix }}
