@@ -37,7 +37,7 @@ echo "parliament arguments: ${PARLIAMENT_ARGS[@]}"
 echo
 
 echo "ALL FILES:"
-find /home/runner/work/iam-lint/ -type f
+find /home/runner/work -type f
 
 POLICY_FILES="$(find ${POLICY_DIR_PATH} -type f -name "*.${POLICY_FILE_SUFFIX}")"
 echo "FILES: ${POLICY_FILES[@]}"
