@@ -18,7 +18,7 @@ IAM policy document file suffix
 **Default:** 'json'
 
 ### minimum_severity
-Minimum severity of findings to display (passed to [parliament](https://github.com/duo-labs/parliament).
+Minimum severity of findings to display (passed to [parliament](https://github.com/duo-labs/parliament)).
 
 **Required:** False
 
