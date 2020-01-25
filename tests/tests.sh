@@ -27,6 +27,7 @@ testArgumentsMinimumSeverity() {
     OUTPUT="$(docker run -e INPUT_MINIMUM_SEVERITY=HIGH -v ${TEST_POLICY_DIR}/invalid:/src iam-lint /src)"
     RC=$?
 
+
     assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
                 "[ ${RC} -ne 1 ]"
     assertTrue "--minimum_severity HIGH not in output" \
@@ -87,19 +88,6 @@ testLintInvalidMultiple() {
     assertTrue "iam-lint validated properly invalid policy files" \
                 "[ $(echo ${OUTPUT} | grep -o FAILED | wc -l) -eq 2 ]"
 }
-
-#testLintValidInvalid() {
-#    OUTPUT="$(docker run -v ${TEST_POLICY_DIR}/valid_invalid:/src iam-lint /src)"
-#    RC=$?
-#
-#    assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
-#                "[ ${RC} -ne 0 ]"
-#    assertTrue "Invalid number of properly validated valid policy files" \
-#                "[ $(echo ${OUTPUT} | grep -c OK) -eq 1 ]"
-#    assertTrue "Invalid number of properly validated invalid policy files" \
-#                "[ $(echo ${OUTPUT} | grep -c FAILED) -eq 1 ]"#
-#
-#}
 
 # Execute tests
 . ${TESTS_DIR}/shunit2

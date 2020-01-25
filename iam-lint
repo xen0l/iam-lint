@@ -9,11 +9,11 @@ COLOR_GREEN='\e[32m'
 NO_COLOR='\e[0m'
 
 function red() {
-    echo -e "${COLOR_RED}$@${NO_COLOR}"
+    echo -e "${COLOR_RED}$*${NO_COLOR}"
 }
 
 function green() {
-    echo -e "${COLOR_GREEN}$@${NO_COLOR}"
+    echo -e "${COLOR_GREEN}$*${NO_COLOR}"
 }
 
 POLICY_DIR_PATH=${1:-"policies"}
@@ -24,20 +24,20 @@ PARLIAMENT_MINIMUM_SEVERITY=${INPUT_MINIMUM_SEVERITY:-}
 POLICY_FILES={}
 PARLIAMENT_ARGS=()
 
-if [[ ! -z  "${PARLIAMENT_MINIMUM_SEVERITY}" ]]; then
-    PARLIAMENT_ARGS+="--minimum_severity ${PARLIAMENT_MINIMUM_SEVERITY}"
+if [[ -n  "${PARLIAMENT_MINIMUM_SEVERITY}" ]]; then
+    PARLIAMENT_ARGS+=("--minimum_severity")
+    PARLIAMENT_ARGS+=("${PARLIAMENT_MINIMUM_SEVERITY}")
 fi
 
 PARLIAMENT_VERSION="$(python -c 'import pkg_resources; print(pkg_resources.get_distribution("parliament").version)')"
 
-echo "Policy dir path: ${POLICY_DIR_PATH}"
-echo "Policy file suffix: ${POLICY_FILE_SUFFIX}"
-echo "parliament version: ${PARLIAMENT_VERSION}"
-echo "parliament arguments: ${PARLIAMENT_ARGS[@]}"
-echo
+printf "Policy dir path: %s\n" "${POLICY_DIR_PATH}"
+printf "Policy file suffix: %s\n" "${POLICY_FILE_SUFFIX}"
+printf "parliament version: %s\n" "${PARLIAMENT_VERSION}"
+printf "parliament arguments: %s\n" "${PARLIAMENT_ARGS[*]}"
+printf "\n"
 
-POLICY_FILES="$(find ${POLICY_DIR_PATH} -type f -name "*.${POLICY_FILE_SUFFIX}")"
-echo "FILES: ${POLICY_FILES[@]}"
+POLICY_FILES="$(find "${POLICY_DIR_PATH}" -type f -name "*.${POLICY_FILE_SUFFIX}")"
 if [[ -z "${POLICY_FILES}" ]]; then
     red "No policy files found!"
 
@@ -45,11 +45,11 @@ if [[ -z "${POLICY_FILES}" ]]; then
     exit ${RC}
 fi
 
-while read file;
+while read -r file;
 do
     echo -n "==> Linting $file... "
 
-    OUTPUT="$(parliament ${PARLIAMENT_ARGS[@]} --file $file 2>&1 || true)"
+    OUTPUT="$(parliament "${PARLIAMENT_ARGS[@]}" --file "${file}" 2>&1 || true)"
     if [[ -n "${OUTPUT}" ]]; then
         red "FAILED"
         echo "${OUTPUT}"
