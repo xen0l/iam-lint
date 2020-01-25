@@ -40,5 +40,5 @@ Minimum severity of findings to display (passed to [parliament](https://github.c
     path: 'policies'
 ```
 
-## Thanks
+## Credits
 This action would not be possible without [parliament](https://github.com/duo-labs/parliament). Special thanks goes to [Scott piper](https://github.com/0xdabbad00) and other contributors.
