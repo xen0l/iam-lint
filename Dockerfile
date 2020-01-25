@@ -7,4 +7,3 @@ RUN apk --no-cache add bash && \
 COPY iam-lint /iam-lint
 
 ENTRYPOINT ["/iam-lint"]
-
