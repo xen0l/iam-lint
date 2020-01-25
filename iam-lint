@@ -2,6 +2,9 @@
 
 set -ueo pipefail
 
+# To enable '**/' globbing pattern
+shopt -s globstar
+
 RC=0
 
 COLOR_RED='\e[31m'
@@ -37,7 +40,8 @@ printf "parliament version: %s\n" "${PARLIAMENT_VERSION}"
 printf "parliament arguments: %s\n" "${PARLIAMENT_ARGS[*]}"
 printf "\n"
 
-POLICY_FILES="$(find "${POLICY_DIR_PATH}" -type f -name "*.${POLICY_FILE_SUFFIX}")"
+# shellcheck disable=SC2086
+POLICY_FILES="$(find ${POLICY_DIR_PATH} -type f -name "*.${POLICY_FILE_SUFFIX}")"
 if [[ -z "${POLICY_FILES}" ]]; then
     red "No policy files found!"
 
