@@ -16,7 +16,7 @@ function green() {
     echo -e "${COLOR_GREEN}$*${NO_COLOR}"
 }
 
-POLICY_DIR_PATH=${1:-"policies"}
+POLICY_DIR_PATH=${1:-"."}
 POLICY_FILE_SUFFIX=${2:-"json"}
 
 PARLIAMENT_MINIMUM_SEVERITY=${INPUT_MINIMUM_SEVERITY:-}
