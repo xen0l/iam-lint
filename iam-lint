@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+
+set -ueo pipefail
+
+RC=0
+
+COLOR_RED='\e[31m'
+COLOR_GREEN='\e[32m'
+NO_COLOR='\e[0m'
+
+function red() {
+    echo -e "${COLOR_RED}$*${NO_COLOR}"
+}
+
+function green() {
+    echo -e "${COLOR_GREEN}$*${NO_COLOR}"
+}
+
+POLICY_DIR_PATH=${1:-"."}
+POLICY_FILE_SUFFIX=${2:-"json"}
+
+PARLIAMENT_MINIMUM_SEVERITY=${INPUT_MINIMUM_SEVERITY:-}
+
+POLICY_FILES={}
+PARLIAMENT_ARGS=()
+
+if [[ -n  "${PARLIAMENT_MINIMUM_SEVERITY}" ]]; then
+    PARLIAMENT_ARGS+=("--minimum_severity")
+    PARLIAMENT_ARGS+=("${PARLIAMENT_MINIMUM_SEVERITY}")
+fi
+
+PARLIAMENT_VERSION="$(python -c 'import pkg_resources; print(pkg_resources.get_distribution("parliament").version)')"
+
+printf "Policy dir path: %s\n" "${POLICY_DIR_PATH}"
+printf "Policy file suffix: %s\n" "${POLICY_FILE_SUFFIX}"
+printf "parliament version: %s\n" "${PARLIAMENT_VERSION}"
+printf "parliament arguments: %s\n" "${PARLIAMENT_ARGS[*]}"
+printf "\n"
+
+POLICY_FILES="$(find "${POLICY_DIR_PATH}" -type f -name "*.${POLICY_FILE_SUFFIX}")"
+if [[ -z "${POLICY_FILES}" ]]; then
+    red "No policy files found!"
+
+    RC=1
+    exit ${RC}
+fi
+
+while read -r file;
+do
+    echo -n "==> Linting $file... "
+
+    OUTPUT="$(parliament "${PARLIAMENT_ARGS[@]}" --file "${file}" 2>&1 || true)"
+    if [[ -n "${OUTPUT}" ]]; then
+        red "FAILED"
+        echo "${OUTPUT}"
+
+        RC=1
+    else
+        green "OK"
+    fi
+done <<< "${POLICY_FILES[@]}"
+
+exit ${RC}
