@@ -4,6 +4,7 @@ ROOT=$(cd $(dirname $0)/../ >/dev/null; pwd)
 
 TESTS_DIR="${ROOT}/tests"
 TEST_POLICY_DIR="${ROOT}/tests/test_policies"
+TEST_CONFIG_DIR="${ROOT}/tests/test_configs"
 
 oneTimeSetUp() {
     cd ${ROOT}
@@ -32,6 +33,21 @@ testArgumentsMinimumSeverity() {
                 "[ ${RC} -ne 1 ]"
     assertTrue "--minimum_severity HIGH not in output" \
                 "[ $(echo ${OUTPUT} | grep -c -- "--minimum_severity HIGH") -eq 1 ]"
+}
+
+testArgumentsConfig() {
+    OUTPUT="$(docker run -e INPUT_CONFIG=/config_override.yaml \
+                        -v ${TEST_POLICY_DIR}/invalid:/src \
+                        -v ${TEST_CONFIG_DIR}/invalid.yaml:/config_override.yaml \
+                        iam-lint /src)"
+    RC=$?
+
+    assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
+                "[ ${RC} -eq 1 ]"
+    assertTrue "--config custom_config.yml not in output" \
+                "[ $(echo ${OUTPUT} | grep -c -- "--config /config_override.yaml") -eq 1 ]"
+    assertTrue "config severity override didn't work" \
+                "[ $(echo ${OUTPUT} | grep -c "HIGH - Unknown action") -eq 1 ]"
 }
 
 #
