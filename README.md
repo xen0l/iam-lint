@@ -17,21 +17,21 @@ IAM policy document file suffix
 
 **Default:** 'json'
 
-### minimum_severity
+### `minimum_severity`
 Minimum severity of findings to display (passed to [parliament](https://github.com/duo-labs/parliament)).
 
 **Required:** False
 
 **Default:** ''
 
-### config
+### `config`
 Custom config file (passed to [parliament](https://github.com/duo-labs/parliament)).
 
 **Required:** False
 
 **Default:** ''
 
-### private_auditors
+### `private_auditors`
 Private auditors path (passed to [parliament](https://github.com/duo-labs/parliament)).
 
 **Required:** False
