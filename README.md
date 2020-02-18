@@ -31,6 +31,13 @@ Custom config file (passed to [parliament](https://github.com/duo-labs/parliamen
 
 **Default:** ''
 
+### private_auditors
+Private auditors path (passed to [parliament](https://github.com/duo-labs/parliament)).
+
+**Required:** False
+
+**Default:** ''
+
 ## Example usage
 ### Without specifying a path
 ```

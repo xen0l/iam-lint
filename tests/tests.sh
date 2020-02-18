@@ -5,6 +5,7 @@ ROOT=$(cd $(dirname $0)/../ >/dev/null; pwd)
 TESTS_DIR="${ROOT}/tests"
 TEST_POLICY_DIR="${ROOT}/tests/test_policies"
 TEST_CONFIG_DIR="${ROOT}/tests/test_configs"
+TEST_PRIVATE_AUDITORS_DIR="${ROOT}/tests/private_auditors"
 
 oneTimeSetUp() {
     cd ${ROOT}
@@ -46,8 +47,24 @@ testArgumentsConfig() {
                 "[ ${RC} -eq 1 ]"
     assertTrue "--config custom_config.yml not in output" \
                 "[ $(echo ${OUTPUT} | grep -c -- "--config /config_override.yaml") -eq 1 ]"
-    assertTrue "config severity override didn't work" \
+    assertTrue "config severity override didn't work as expected" \
                 "[ $(echo ${OUTPUT} | grep -c "HIGH - Unknown action") -eq 1 ]"
+}
+
+testArgumentsPrivateAuditors() {
+    OUTPUT="$(docker run -e INPUT_PRIVATE_AUDITORS=private_auditors \
+                         -e INPUT_CONFIG=private_auditors/config_override.yaml \
+                         -v ${TEST_POLICY_DIR}/private_auditors:/src \
+                         -v ${TEST_PRIVATE_AUDITORS_DIR}:/private_auditors \
+                         iam-lint /src)"
+    RC=$?
+
+    assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
+                "[ ${RC} -eq 1 ]"
+    assertTrue "--private_auditors private_auditors not in output" \
+                "[ $(echo ${OUTPUT} | grep -c -- "--private_auditors private_auditors") -eq 1 ]"
+    assertTrue "private_auditors didn't work as expected" \
+                "[ $(echo ${OUTPUT} | grep -c "MEDIUM - Sensitive bucket access") -eq 1 ]"
 }
 
 #

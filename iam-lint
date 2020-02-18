@@ -24,6 +24,7 @@ POLICY_FILE_SUFFIX=${2:-"json"}
 
 PARLIAMENT_MINIMUM_SEVERITY=${INPUT_MINIMUM_SEVERITY:-}
 PARLIAMENT_CONFIG=${INPUT_CONFIG:-}
+PARLIAMENT_PRIVATE_AUDITORS=${INPUT_PRIVATE_AUDITORS:-}
 
 POLICY_FILES={}
 PARLIAMENT_ARGS=()
@@ -36,6 +37,11 @@ fi
 if [[ -n "${PARLIAMENT_CONFIG}" ]]; then
     PARLIAMENT_ARGS+=("--config")
     PARLIAMENT_ARGS+=("${PARLIAMENT_CONFIG}")
+fi
+
+if [[ -n "${PARLIAMENT_PRIVATE_AUDITORS}" ]]; then
+    PARLIAMENT_ARGS+=("--private_auditors")
+    PARLIAMENT_ARGS+=("${PARLIAMENT_PRIVATE_AUDITORS}")
 fi
 
 PARLIAMENT_VERSION="$(python -c 'import pkg_resources; print(pkg_resources.get_distribution("parliament").version)')"
