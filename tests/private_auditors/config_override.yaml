@@ -1,0 +1,5 @@
+SENSITIVE_BUCKET_ACCESS:
+  title: Sensitive bucket access
+  description: Allows read access to an important S3 bucket
+  severity: MEDIUM
+  group: CUSTOM
