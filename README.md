@@ -6,7 +6,7 @@ Github action for linting AWS IAM policy documents
 ### `path`
 Path to folder with IAM policy document files that is passed to 'find' command.  This should be a shell glob expression.
 
-**Required:** False 
+**Required:** False
 
 **Default:** '.'
 
@@ -24,6 +24,12 @@ Minimum severity of findings to display (passed to [parliament](https://github.c
 
 **Default:** ''
 
+### config
+Custom config file (passed to [parliament](https://github.com/duo-labs/parliament)).
+
+**Required:** False
+
+**Default:** ''
 
 ## Example usage
 ### Without specifying a path

@@ -1,0 +1,4 @@
+UNKNOWN_ACTION:
+  severity: HIGH
+  ignore_locations:
+  - action: "ec2:AssumeRole"

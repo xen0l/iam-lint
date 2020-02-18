@@ -17,6 +17,10 @@ inputs:
     description: "Minimum severity of findigs to display"
     required: false
     default: ''
+  config:
+    description: "Custom config path"
+    required: false
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
