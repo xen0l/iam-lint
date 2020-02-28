@@ -68,7 +68,6 @@ testArgumentsPrivateAuditors() {
 }
 
 testArgumentsCommunityAuditors() {
-    set -x
     OUTPUT="$(docker run -e INPUT_COMMUNITY_AUDITORS=true \
                          -v ${TEST_POLICY_DIR}/valid:/src \
                          iam-lint /src)"
@@ -76,7 +75,6 @@ testArgumentsCommunityAuditors() {
 
     assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
                 "[ ${RC} -eq 0 ]"
-    set +x
     assertTrue "--include-community-auditors not in output" \
                 "[ $(echo ${OUTPUT} | grep -c -- "--include-community-auditors") -eq 1 ]"
 }
