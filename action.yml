@@ -21,6 +21,10 @@ inputs:
     description: "Custom config path"
     required: false
     default: ''
+  private_auditors:
+    description: Path to folder with private_auditors used by parliament'
+    required: false
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
