@@ -67,6 +67,18 @@ testArgumentsPrivateAuditors() {
                 "[ $(echo ${OUTPUT} | grep -c "MEDIUM - Sensitive bucket access") -eq 1 ]"
 }
 
+testArgumentsCommunityAuditors() {
+    OUTPUT="$(docker run -e INPUT_COMMUNITY_AUDITORS=true \
+                         -v ${TEST_POLICY_DIR}/valid:/src \
+                         iam-lint /src)"
+    RC=$?
+
+    assertTrue "iam-lint exited with a different return code than expected: ${RC}" \
+                "[ ${RC} -eq 0 ]"
+    assertTrue "--include-community-auditors not in output" \
+                "[ $(echo ${OUTPUT} | grep -c -- "--include-community-auditors") -eq 1 ]"
+}
+
 #
 # Lint functionality tests
 #
