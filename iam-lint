@@ -65,7 +65,8 @@ while read -r file;
 do
     echo -n "==> Linting $file... "
 
-    OUTPUT="$(parliament "${PARLIAMENT_ARGS[@]}" --file "${file}" 2>&1 || true)"
+    OUTPUT=`cat "${file}" | parliament "${PARLIAMENT_ARGS[@]}" 2>&1 || true`
+
     if [[ -n "${OUTPUT}" ]]; then
         red "FAILED"
         echo "${OUTPUT}"
